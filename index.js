@@ -18,20 +18,32 @@ app.get('/', (req, res) => {
 const newspapers = [
 
     {
-        name: 'thetimes',
-        address: 'https://www.thetimes.co.uk/environment/climate-change',
-        base: ''
+        name: "nftnewstoday",
+        address: "https://nftnewstoday.com/latest-news/",
+        base: ""
     },
     {
-        name: 'guardian',
-        address: 'https://www.theguardian.com/environment/climate-crisis',
-        base: ''
-    },
-    {
-        name: 'telegraph',
-        address: 'https://www.telegraph.co.uk/climate-change',
-        base: 'https://www.telegraph.co.uk'
+        name: "cryptopolitan",
+        address: "https://www.cryptopolitan.com/news/nft/",
+        base: ""
     }
+    
+
+    // {
+    //     name: 'thetimes',
+    //     address: 'https://www.thetimes.co.uk/environment/climate-change',
+    //     base: ''
+    // },
+    // {
+    //     name: 'guardian',
+    //     address: 'https://www.theguardian.com/environment/climate-crisis',
+    //     base: ''
+    // },
+    // {
+    //     name: 'telegraph',
+    //     address: 'https://www.telegraph.co.uk/climate-change',
+    //     base: 'https://www.telegraph.co.uk'
+    // }
 ]
 
 // push articles into array
@@ -44,7 +56,7 @@ newspapers.forEach(newspaper => {
             const html = response.data
             const $ = cheerio.load(html)
 
-            $('a:contains("climate")', html).each(function () {
+            $('a:contains("nft")', html).each(function () {
                 // save text from a tag as the article's title
                const title = $(this).text()
                // save href from the a tage as the article's url
@@ -71,40 +83,40 @@ app.get('/news', (req, res) => {
 });
 
 // GET ONE article
-app.get('/news/:newspaperId', async (req, res) => {
+// app.get('/news/:newspaperId', async (req, res) => {
 
 
-    // grab newspaper id from search params
-    const newspaperID = req.params.newspaperId
+//     // grab newspaper id from search params
+//     const newspaperID = req.params.newspaperId
 
-    // check to see if newspaperID (name) from params is one of the newspapers within our newspaper array
-    const newspaperAddress = newspapers.filter(newspaper => newspaper.name == newspaperID)[0].address
+//     // check to see if newspaperID (name) from params is one of the newspapers within our newspaper array
+//     const newspaperAddress = newspapers.filter(newspaper => newspaper.name == newspaperID)[0].address
 
-    // filter through artciles and append base to the url in case it's missing... base will be appended to url (if it exists) when creating our newspaper object(s) below on line 97
-    const newspaperBase = newspapers.filter(newspaper => newspaper.name == newspaperID)[0].base
+//     // filter through artciles and append base to the url in case it's missing... base will be appended to url (if it exists) when creating our newspaper object(s) below on line 97
+//     const newspaperBase = newspapers.filter(newspaper => newspaper.name == newspaperID)[0].base
 
-    axios.get(newspaperAddress)
-        .then(response => {
-            const html = response.data
-            const $ = cheerio.load(html)
-            const specificArticles = []
+//     axios.get(newspaperAddress)
+//         .then(response => {
+//             const html = response.data
+//             const $ = cheerio.load(html)
+//             const specificArticles = []
 
-            $('a:contains("climate")', html).each(function () {
-                const title = $(this).text()
-                const url = $(this).attr('href')
-                specificArticles.push({
-                    title,
-                    url: newspaperBase + url,
-                    source: newspaperID
-                })
-            })
+//             $('a:contains("climate")', html).each(function () {
+//                 const title = $(this).text()
+//                 const url = $(this).attr('href')
+//                 specificArticles.push({
+//                     title,
+//                     url: newspaperBase + url,
+//                     source: newspaperID
+//                 })
+//             })
 
-            // respond with data from one publication 
-            res.json(specificArticles)
+//             // respond with data from one publication 
+//             res.json(specificArticles)
 
-        })
-        .catch(err => console.log(err))
-})
+//         })
+//         .catch(err => console.log(err))
+// })
 
 
 // listen 
